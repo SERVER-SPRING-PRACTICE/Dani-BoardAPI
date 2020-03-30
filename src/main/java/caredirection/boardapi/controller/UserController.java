@@ -1,5 +1,6 @@
 package caredirection.boardapi.controller;
 
+import caredirection.boardapi.model.SigninReq;
 import caredirection.boardapi.model.SignupReq;
 import caredirection.boardapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,16 @@ public class UserController {
     public ResponseEntity signup(@RequestBody final SignupReq signupReq){
         try{
             return new ResponseEntity<>(userService.signup(signupReq), HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("signin")
+    public ResponseEntity signup(@RequestBody final SigninReq signinReq){
+        try{
+            return new ResponseEntity<>(userService.signin(signinReq), HttpStatus.OK);
         } catch (Exception e){
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
