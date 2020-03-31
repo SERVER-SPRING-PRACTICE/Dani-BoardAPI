@@ -1,5 +1,6 @@
 package caredirection.boardapi.service;
 
+import caredirection.boardapi.dto.Board;
 import caredirection.boardapi.mapper.BoardMapper;
 import caredirection.boardapi.mapper.ImageMapper;
 import caredirection.boardapi.model.BoardReq;
@@ -38,6 +39,21 @@ public class BoardService {
             }
             return DefaultRes.res(StatusCode.CREATED, ResponseMessage.BOARD_REGISTER_SUCCESS);
         } catch(Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.error(e.getMessage());
+            return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
+        }
+    }
+
+    @Transactional
+    public DefaultRes getBoards(Board board){
+        try{
+            Board[] boardArr = boardMapper.getBoards(board.getUserIdx());
+            for(Board b : boardArr){
+                b.setBoardImgURL(imageMapper.getImgByBoardIdx(b.getBoardIdx()));
+            }
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.BOARD_LIST_SUCCESS, boardArr );
+        } catch (Exception e){
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             log.error(e.getMessage());
             return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
