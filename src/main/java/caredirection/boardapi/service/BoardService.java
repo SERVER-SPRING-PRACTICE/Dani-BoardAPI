@@ -59,4 +59,17 @@ public class BoardService {
             return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
         }
     }
+
+    @Transactional
+    public DefaultRes getSpecificBoard(Board board){
+        try{
+            board = boardMapper.getSpecificBoard(board.getUserIdx(), board.getBoardIdx());
+            board.setBoardImgURL(imageMapper.getSpecificBoardImg(board.getBoardIdx()));
+            return DefaultRes.res(StatusCode.OK, ResponseMessage.GET_SPECIFIC_BOARD_INFO_SUCCESS, board);
+        } catch (Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.error(e.getMessage());
+            return DefaultRes.res(StatusCode.DB_ERROR, ResponseMessage.DB_ERROR);
+        }
+    }
 }
