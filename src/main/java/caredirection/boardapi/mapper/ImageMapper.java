@@ -15,4 +15,8 @@ public interface ImageMapper {
     // boardIdx 로 imageURL 가져오기
     @Select("SELECT imageURL FROM Image WHERE boardIdx = #{boardIdx}")
     String[] getImgByBoardIdx(@Param("boardIdx") final int boardIdx);
+
+    // 특정 게시글 imageURL 가져오기
+    @Select("SELECT imageURL FROM Image WHERE boardIdx = #{boardIdx}")
+    String[] getSpecificBoardImg(@Param("boardIdx") final int boardIdx);
 }

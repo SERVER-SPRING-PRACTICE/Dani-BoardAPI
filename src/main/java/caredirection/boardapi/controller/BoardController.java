@@ -8,10 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import static caredirection.boardapi.model.DefaultRes.FAIL_DEFAULT_RES;
@@ -51,6 +48,20 @@ public class BoardController {
             Board board = new Board();
             board.setUserIdx(userIdx);
             return new ResponseEntity<>(boardService.getBoards(board),HttpStatus.OK);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("board/{board_idx}")
+    public ResponseEntity getSpecificBoard(@RequestHeader(value = "token") final String token, @PathVariable(value = "board_idx") final int boardIdx){
+        try{
+            final int userIdx = jwtService.decode(token).getUser_idx();
+            Board board = new Board();
+            board.setUserIdx(userIdx);
+            board.setBoardIdx(boardIdx);
+            return new ResponseEntity<>(boardService.getSpecificBoard(board),HttpStatus.OK);
         } catch (Exception e){
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);
