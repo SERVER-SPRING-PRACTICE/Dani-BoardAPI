@@ -21,5 +21,6 @@ public class ResponseMessage {
     public static final String DUPLICATED = "duplicated";
     public static final String DB_ERROR = "데이터베이스 에러";
     public static final String BOARD_REGISTER_SUCCESS = "게시판 글 쓰기 성공";
+    public static final String BOARD_LIST_SUCCESS ="게시판 글 목록 가져오기 성공";
 
 }
