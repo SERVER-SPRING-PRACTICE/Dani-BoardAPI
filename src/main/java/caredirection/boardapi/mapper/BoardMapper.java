@@ -18,4 +18,8 @@ public interface BoardMapper {
     // 게시판 글 목록 조회
     @Select("SELECT boardIdx FROM Board WHERE userIdx = #{userIdx}")
     Board[] getBoards(@Param("userIdx") final int userIdx);
+
+    // 특정 게시글 조회
+    @Select("SELECT * FROM Board WHERE userIdx = #{userIdx} AND boardIdx = #{boardIdx}")
+    Board getSpecificBoard(@Param("userIdx") final int userIdx, @Param("boardIdx") final int boardIdx);
 }
