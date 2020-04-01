@@ -35,7 +35,7 @@ public class BoardController {
             final int userIdx = jwtService.decode(token).getUser_idx();
             boardReq.setUserIdx(userIdx);
             if(boardImg != null) boardReq.setBoardImg(boardImg);
-            return new ResponseEntity<>(boardService.register(boardReq), HttpStatus.CREATED);
+            return new ResponseEntity<>(boardService.postBoard(boardReq), HttpStatus.CREATED);
         }catch (Exception e){
             log.error(e.getMessage());
             return new ResponseEntity<>(FAIL_DEFAULT_RES, HttpStatus.INTERNAL_SERVER_ERROR);

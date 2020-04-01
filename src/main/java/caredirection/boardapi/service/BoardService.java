@@ -26,9 +26,9 @@ public class BoardService {
     }
 
     @Transactional
-    public DefaultRes register(final BoardReq boardReq){
+    public DefaultRes postBoard(final BoardReq boardReq){
         try{
-            boardMapper.register(boardReq.getUserIdx(), boardReq.getBoardTitle(), boardReq.getBoardContent());
+            boardMapper.postBoard(boardReq.getUserIdx(), boardReq.getBoardTitle(), boardReq.getBoardContent());
             int boardIdx = boardMapper.getBoardIdx(boardReq.getUserIdx(), boardReq.getBoardTitle(), boardReq.getBoardContent());
             // 이미지 있을 경우
             if(boardReq.getBoardImg() != null) {
